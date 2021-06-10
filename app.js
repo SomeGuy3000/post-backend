@@ -5,4 +5,9 @@ app.use(async ctx => {
   ctx.body = 'Hello World';
 });
 
-app.listen(3000);
+if (process.env.APP_PORT) {
+  app.listen(process.env.APP_PORT);
+  console.info("The application is listening on the port: ", process.env.APP_PORT);
+} else {
+  console.info("To start app you have to specify port in dotenv!")
+}
