@@ -1,13 +1,24 @@
 const Koa = require('koa');
-const app = new Koa();
+const json = require('koa-json');
+const path = require("path");
 
-app.use(async ctx => {
-  ctx.body = 'Hello World';
-});
+const app = new Koa();
+const router = require('./router/routers');
+
+app
+  .use(json())
+  .use(router.routes())
+  .use(router.allowedMethods())
+  .use(async ctx => {
+    ctx.body = {
+      status: 404
+    };
+  });
 
 if (process.env.APP_PORT) {
   app.listen(process.env.APP_PORT);
-  console.info("The application is listening on the port: ", process.env.APP_PORT);
+  console.info(" App is listening on:", process.env.APP_PORT);
 } else {
-  console.info("To start app you have to specify port in dotenv!")
+  app.listen(3000);
+  console.info(" App is listening on: 3000 \n To change app port setup it in dotenv file!")
 }
