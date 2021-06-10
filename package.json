@@ -1,0 +1,16 @@
+{
+  "name": "post-backend",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "koa": "^2.13.1"
+  }
+}
