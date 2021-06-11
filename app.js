@@ -11,7 +11,8 @@ app
   .use(router.allowedMethods())
   .use(async ctx => {
     ctx.body = {
-      status: 404
+      "message": "Not found",
+      "code": 404
     };
   });
 
