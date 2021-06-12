@@ -19,8 +19,8 @@ module.exports = {
             title: body.title, 
             lead: body.lead,
             content: body.content,
+            author: body.author,
             createdAt: timestamp, 
-            updatedAt: 'NULL'
         }])
             .then(() => {ctx.status = 201; ctx.response.body = {"message": "accept","code": 201}})
             .catch(() => {ctx.status = 500; ctx.body = {"message": "error","code": 500}});
