@@ -1,38 +1,50 @@
+const moment = require('moment');
+const knex = require("../database/dbSetup")
 module.exports = {
-    getRecord: function (ctx, next) {
-        ctx.body = {
-            "message": "hi",
-            "code": 200
-        };
+    getAllRecords: async (ctx) => {
+        if(ctx.request.query.id){
+            let ids = ctx.request.query.id.split(',');
+            await knex('posts').whereIn('ID', ids).then(result => ctx.body = result)
+                .catch(() => {ctx.status = 500; ctx.body = {"message": "error","code": 500}});
+        } else {
+            await knex('posts').select('*').then(result => ctx.body = result)
+                .catch(() => {ctx.status = 500; ctx.body = {"message": "error","code": 500}});
+        }
     },
-    getAllRecords: function (ctx, next) {
-        ctx.body = {
-            "message": "all",
-            "code": 200
-        };
+    addRecord: async ctx => {
+        let timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        let body = ctx.request.body
+  
+        await knex('posts').insert([{
+            title: body.title, 
+            lead: body.lead,
+            content: body.content,
+            createdAt: timestamp, 
+            updatedAt: 'NULL'
+        }])
+            .then(() => {ctx.status = 201; ctx.response.body = {"message": "accept","code": 201}})
+            .catch(() => {ctx.status = 500; ctx.body = {"message": "error","code": 500}});
     },
-    addRecord: function (ctx, next) {
-        ctx.body = {
-            "message": "put",
-            "code": 200
-        };
+    editRecord: async ctx => {
+        let timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+        let id = parseInt(ctx.request.query.id);
+        let body = ctx.request.body
+
+        await knex('posts').where({'id': id}).update({
+            title: body.title, 
+            lead: body.lead, 
+            content: body.content,  
+            updatedAt: timestamp
+          })
+            .then(() => {ctx.status = 202; ctx.response.body = {"message": "accept","code": 202}})
+            .catch(() => {ctx.status = 500; ctx.body = {"message": "error","code": 500}});
     },
-    editRecord: function (ctx, next) {
-        ctx.body = {
-            "message": "post",
-            "code": 200
-        };
-    },
-    deleteRecord: function (ctx, next) {
-        ctx.body = {
-            "message": "delete",
-            "code": 200
-        };
-    },
-    deleteBatchRecords: function (ctx, next) {
-        ctx.body = {
-            "message": "deleteBatch",
-            "code": 200
-        };
+    deleteRecords: async ctx => {
+        let ids = ctx.request.query.id.split(',');
+
+        await knex('posts').whereIn('id', ids).del()
+            .then(() => {ctx.status = 200; ctx.response.body = {"message": "accept","code": 200}})
+            .catch(() => {ctx.status = 500; ctx.body = {"message": "error","code": 500}});
     },
 }

@@ -2,13 +2,12 @@ const KoaRouter = require('koa-router');
 const api = new KoaRouter({ prefix: '/api' });
 const recordController = require("../../controllers/records");
 
-api.get('/records', (ctx, next) => recordController.getRecord(ctx, next));
-api.get('/records/all', (ctx, next) => recordController.getAllRecords(ctx, next));
+api.get('/records', (ctx, next) => recordController.getAllRecords(ctx));
 
-api.put('/records', (ctx, next) => recordController.editRecord(ctx, next));
+api.post('/records', (ctx, next) => recordController.addRecord(ctx));
 
-api.post('/records', (ctx, next) => recordController.addRecord(ctx, next));
+api.put('/records', (ctx, next) => recordController.editRecord(ctx));
 
-api.delete('/records', (ctx, next) => recordController.deleteRecord(ctx, next));
+api.delete('/records', (ctx, next) => recordController.deleteRecords(ctx));
 
 module.exports = api;

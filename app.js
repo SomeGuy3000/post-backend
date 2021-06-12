@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const json = require('koa-json');
+const koaBody = require('koa-body');
 const path = require("path");
 
 const app = new Koa();
@@ -9,13 +10,14 @@ const mainRouter = require('./router/routers');
 
 app
   .use(json())
+  .use(koaBody())
   .use(apiRouter.routes())
   .use(apiRouter.allowedMethods())
   .use(mainRouter.routes())
   .use(mainRouter.allowedMethods())
   .use(async ctx => {
     ctx.body = {
-      "message": "Not found",
+      "message": "not found",
       "code": 404
     };
   });

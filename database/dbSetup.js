@@ -7,3 +7,5 @@ const knex = require('knex')({
         "database": process.env.DATABASE_NAME
     }
 });
+
+module.exports = knex;
