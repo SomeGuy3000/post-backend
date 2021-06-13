@@ -11,6 +11,5 @@ api.delete('/records', (ctx, next) => recordController.deleteRecords(ctx));
 api.get('/account', (ctx, next) => accountController.getAccountData(ctx));
 api.post('/account', (ctx, next) => accountController.createNewAccount(ctx));
 api.put('/account', (ctx, next) => accountController.editAccount(ctx));
-api.delete('/account', (ctx, next) => accountController.deleteAccount(ctx));
 
 module.exports = api;
