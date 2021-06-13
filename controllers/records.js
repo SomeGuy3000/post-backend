@@ -1,7 +1,7 @@
 const moment = require('moment');
-const knex = require("../database/dbSetup")
+const knex = require("../database/dbSetup");
 module.exports = {
-    getAllRecords: async (ctx) => {
+    getAllRecords: async ctx => {
         if(ctx.request.query.id){
             let ids = ctx.request.query.id.split(',');
             await knex('posts').whereIn('ID', ids).then(result => ctx.body = result)
@@ -13,7 +13,7 @@ module.exports = {
     },
     addRecord: async ctx => {
         let timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        let body = ctx.request.body
+        let body = ctx.request.body;
   
         await knex('posts').insert([{
             title: body.title, 
@@ -29,7 +29,7 @@ module.exports = {
         let timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
         let id = parseInt(ctx.request.query.id);
-        let body = ctx.request.body
+        let body = ctx.request.body;
 
         await knex('posts').where({'id': id}).update({
             title: body.title, 
